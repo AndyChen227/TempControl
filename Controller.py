@@ -9,9 +9,19 @@ import time
 # that the control temperature should be set to.
 # You are free to create external variables to preserve
 # state if you wish.  Doing so will (probably) be needed.
+integral = 0.0
+
 def controller(curr_temp: float, set_point: float) -> float:
     # REPLACE THIS, your code here
-    return 0
+    global integral
+
+    Kp = 1.0
+    Ki = 0.05
+
+    error = set_point - curr_temp
+    integral += error
+    return Kp * error + Ki * integral
+
     # ----------------------------
 
 
