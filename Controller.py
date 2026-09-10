@@ -10,17 +10,29 @@ import time
 # You are free to create external variables to preserve
 # state if you wish.  Doing so will (probably) be needed.
 integral = 0.0
+last_error = None
 
 def controller(curr_temp: float, set_point: float) -> float:
     # REPLACE THIS, your code here
-    global integral
+    global integral, last_error
 
-    Kp = 1.0
-    Ki = 0.05
+    Kp = 1.0        # P: Proportional gain
+    Ki = 0.05       # I: Integral gain
+    Kd = 5.0        # D: Derivative gain
+    I_MAX = 130.0   # Maximum integral value
 
-    error = set_point - curr_temp
+    error = set_point - curr_temp    # Calculate the error
+
     integral += error
-    return Kp * error + Ki * integral
+    integral = max(-I_MAX, min(I_MAX, integral))
+
+    if last_error is None:
+        derivative = 0.0
+    else:
+        derivative = error - last_error
+    last_error = error
+
+    return Kp * error + Ki * integral + Kd * derivative
 
     # ----------------------------
 
