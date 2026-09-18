@@ -1,3 +1,4 @@
+# Provided by SARP-UW. The simulation behavior is unchanged.
 import random
 import time
 import matplotlib.pyplot as plt
